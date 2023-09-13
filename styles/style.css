@@ -1,0 +1,85 @@
+#body {
+  background-color: orange;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.blockMedia {
+  display: none;
+  color: white;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+  font-size: 2em;
+}
+
+@media (min-width: 1025px) {
+  .blockMedia {
+    display: block;
+  }
+  
+  .game-container {
+    display: none;
+  }
+}
+
+.game-container {
+  text-align: center;
+}
+
+.logo {
+  justify-content: center; /* Corrigido de 'justify-items' para 'justify-content' */
+}
+
+footer {
+  text-align: center; /* Centralizar horizontalmente */
+}
+
+footer span {
+  vertical-align: middle; /* Centralizar verticalmente */
+}
+
+/* Estilos para a imagem de fundo */
+.popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7); /* Fundo escuro semi-transparente */
+  text-align: center;
+  z-index: 999; /* Garante que a imagem esteja sobre o conteúdo */
+}
+
+/* Estilos para a imagem */
+.popup img {
+  max-width: 80%; /* Tamanho máximo da imagem */
+  max-height: 80%; /* Tamanho máximo da imagem */
+  margin-top: 10%; /* Alinhamento vertical no centro */
+  cursor: pointer;
+}
+
+
+.game-board {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.card {
+  width: 100px;
+  height: 100px;
+  background-color: white;
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* Adicione esta regra CSS para definir o tamanho das imagens */
+.card img {
+  width: 100px;
+  height: 100px;
+  }
