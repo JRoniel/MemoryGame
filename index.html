@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Jogo da Memória - Associação Animal de Rua CG</title>
+  <link rel="icon" href="./icon.ico">
+  <link rel="stylesheet" href="./styles/style.css"/>
+</head>
+
+<body id="body">
+  <div class="blockMedia">
+    <img src="./images/logo_branca.png" class="logo">
+    <h2>Livre apenas para usuários mobile,
+    Acesse através de um celular para jogar.</h2>
+  </div>
+  <div class="game-container">
+    <img src="./images/logo_branca.png" class="logo">
+    <div>
+      <span>Movimentos: <span id="move-counter">0</span></span>
+      <button onclick="reloadGame()">Recarregar Jogo</button>
+    </div>
+    <div class="game-board" id="game-board"></div>
+  </div>
+  
+  <!-- Popup de imagem -->
+  <div class="popup" id="imagePopup" onclick="closePopup(event)">
+    <a href="https://wa.me/558398948616?text=Olá%2C%20Estou%20aqui%20para%20contribuir%20com%20a%20causa%2C%20como%20posso%20ajudar%3F" target="_blank">
+   <img src="./images/popup.jpg" alt="Popup de anúncio">
+    </a>
+  </div>
+  
+  <div id="balloons" class="balloons"></div>
+
+  <script src="./scripts/javascript.js"></script>
+
+  <footer>
+    <span>Feito com &#9829; por John Roniel</span>
+  </footer>
+</body>
+</html>
