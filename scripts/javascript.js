@@ -5,7 +5,7 @@ const cardNames = {
   "C.png": "Kahleesi",
   "D.png": "Cleitin",
   "E.png": "Naruto",
-  "F.png": "Cocada"
+  "F.png": "Bob Marley"
 };
 
 let flippedCards = [];
