@@ -7,17 +7,18 @@
   <meta property="og:title" content="Sala de Jogos do Animal de Rua CG">
   <meta property="og:url" content="gamesanimalderua.vercel.app">
   <meta property="og:image" content="./images/logo_branca.png">
-
   <title>Sala de Jogos - Associação Animal de Rua CG</title>
   <link rel="icon" href="./icon.ico">
   <link rel="stylesheet" href="./styles/style.css"/>
 </head>
-
 <body id="body">
-  <div class="game-container">
+  <div class="loader-container" id="loader">
+    <div class="loader"></div>
+  </div>
+
+  <div class="game-container" id="gameContainer">
     <header>
       <img src="./images/logo_branca.png" class="logo">
-     
       <div class="score-game">
         <span class="moviments">Movimentos: <span id="move-counter">0</span></span>
         <span id="timer">0:00</span>
@@ -41,5 +42,20 @@
   </footer>
   
   <script src="./scripts/javascript.js"></script>
+  <script type="text/javascript">
+    // Função para remover o loader após o carregamento completo do JavaScript
+    function removeLoader() {
+      const loader = document.getElementById("loader");
+      if (loader) {
+        loader.style.display = "none";
+      }
+    }
+
+    // Função para executar após o carregamento completo da página
+    document.addEventListener("DOMContentLoaded", function() {
+      removeLoader();
+      console.log("Elementos carregados");
+    });
+  </script>
 </body>
 </html>
