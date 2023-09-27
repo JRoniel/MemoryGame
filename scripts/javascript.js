@@ -157,8 +157,6 @@ function createGameBoard(images) {
   }
 }
 
-// Resto do código...
-
 function openPopup() {
   const popup = document.getElementById("imagePopup");
   popup.style.display = "block";
