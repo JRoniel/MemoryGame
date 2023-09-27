@@ -53,7 +53,10 @@
 
     // Função para executar após o carregamento completo da página
     document.addEventListener("DOMContentLoaded", function() {
-      removeLoader();
+      setTimeout(()=>{
+        removeLoader();   
+      }, 0300);
+      
       console.log("Elementos carregados");
     });
   </script>

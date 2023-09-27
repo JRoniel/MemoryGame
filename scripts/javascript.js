@@ -1,131 +1,161 @@
-const c = ["A.png", "B.png", "C.png", "D.png", "E.png", "F.png", "A.png", "B.png", "C.png", "D.png", "E.png", "F.png"];
-const n = { "A.png": "Bruce", "B.png": "Docinho", "C.png": "Kahleesi", "D.png": "Cleitin", "E.png": "Naruto", "F.png": "Cocada" };
-let f = [], m = [], o = 0, g = !1, t, s = 0;
+const cardImages = ["A.png", "B.png", "C.png", "D.png", "E.png", "F.png", "A.png", "B.png", "C.png", "D.png", "E.png", "F.png"];
+const cardNames = {
+  "A.png": "Bruce",
+  "B.png": "Docinho",
+  "C.png": "Kahleesi",
+  "D.png": "Cleitin",
+  "E.png": "Naruto",
+  "F.png": "Bob Marley"
+};
 
-function sh(a) {
-  for (let i = a.length - 1; i > 0; i--) {
+let flippedCards = [];
+let matchedCards = [];
+let moveCount = 0;
+let gameStarted = false;
+let timerInterval;
+let seconds = 0;
+let winAlertDisplayed = false; // Variável para controlar se o alerta de vitória já foi exibido
+
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
+    [array[i], array[j]] = [array[j], array[i]];
   }
 }
 
-function cr(a) {
-  const c = document.createElement("div");
-  c.classList.add("card");
-  const d = document.createElement("img");
-  d.src = "./images/blank.jpg";
-  d.alt = "Card";
-  c.appendChild(d);
-  c.dataset.cardValue = a;
-  c.addEventListener("click", fl);
-  return c;
+function createCardElement(cardValue) {
+  const card = document.createElement("div");
+  card.classList.add("card");
+  const cardImage = document.createElement("img");
+  cardImage.src = "./images/blank.jpg"; // Use uma imagem em branco ou de fundo vazio
+  cardImage.alt = "Card";
+  card.appendChild(cardImage);
+  card.dataset.cardValue = cardValue; // Armazene o valor da carta nos dados do elemento
+  card.addEventListener("click", flipCard);
+  return card;
 }
 
-function st() {
-  sh(c);
-  co();
+function startGame() {
+  shuffle(cardImages);
+  createGameBoard();
 }
 
-function sT() {
-  t = setInterval(function () {
-    s++;
-    const m = Math.floor(s / 60);
-    const ds = s % 60;
-    document.getElementById("timer").textContent = `${m}:${ds < 10 ? '0' : ''}${ds}`;
+function startTimer() {
+  timerInterval = setInterval(function () {
+    seconds++;
+    const minutes = Math.floor(seconds / 60);
+    const displaySeconds = seconds % 60;
+    document.getElementById("timer").textContent = `${minutes}:${displaySeconds < 10 ? '0' : ''}${displaySeconds}`;
   }, 1000);
 }
 
-function spT() {
-  clearInterval(t);
+function stopTimer() {
+  clearInterval(timerInterval);
 }
 
-function fl() {
-  if (!g) {
-    sT();
-    g = !0;
+function flipCard() {
+  if (!gameStarted) {
+    startTimer();
+    gameStarted = true;
   }
-  const c = this;
-  if (!c.classList.contains("flipped") && f.length < 2) {
-    c.classList.remove("flipping");
-    c.classList.add("flipped");
-    const d = c.querySelector("img");
-    d.src = `./images/${c.dataset.cardValue}`;
-    f.push(c);
-    if (f.length === 2) {
-      const [c1, c2] = f;
-      const v1 = c1.dataset.cardValue;
-      const v2 = c2.dataset.cardValue;
-      if (v1 === v2) {
-        m.push(c1, c2);
-        f = [];
-        const cn = n[v1];
-        cn && sc(cn);
-        if (m.length === c.length) sw();
+
+  const card = this;
+
+  if (!card.classList.contains("flipped") && flippedCards.length < 2) {
+    card.classList.remove("flipping");
+    card.classList.add("flipped");
+    const cardImage = card.querySelector("img");
+    cardImage.src = `./images/${card.dataset.cardValue}`;
+    flippedCards.push(card);
+
+    if (flippedCards.length === 2) {
+      const [card1, card2] = flippedCards;
+      const card1Value = card1.dataset.cardValue;
+      const card2Value = card2.dataset.cardValue;
+
+      if (card1Value === card2Value) {
+        matchedCards.push(card1, card2);
+        flippedCards = [];
+
+        const cardName = cardNames[card1Value];
+        if (cardName) {
+          showCardFoundText(cardName);
+        }
+
+        if (matchedCards.length === cardImages.length) {
+          showWinAlert();
+        }
       } else {
         setTimeout(() => {
-          f.forEach(c => {
-            c.classList.remove("flipped");
-            c.querySelector("img").src = "./images/blank.jpg";
+          flippedCards.forEach(card => {
+            card.classList.remove("flipped");
+            card.querySelector("img").src = "./images/blank.jpg";
           });
-          f = [];
-        }, 500);
+          flippedCards = [];
+        }, 500); // Reduzido para 500ms
       }
-      o++;
-      document.getElementById("move-counter").textContent = o;
+      moveCount++;
+      document.getElementById("move-counter").textContent = moveCount;
     }
   }
 }
 
-function sc(n) {
-  const cf = document.getElementById("card-found-text");
-  cf.style.display = "block";
-  cf.textContent = `Você encontrou ${n}`;
+function showCardFoundText(cardName) {
+  const cardFoundDiv = document.getElementById("card-found-text");
+  cardFoundDiv.style.display = "block"; // Exibe o elemento
+  cardFoundDiv.textContent = `Você encontrou ${cardName}`;
   setTimeout(() => {
-    cf.style.display = "none";
-    cf.textContent = "";
-  }, 5000);
+    cardFoundDiv.style.display = "none"; // Oculta o elemento após alguns segundos
+    cardFoundDiv.textContent = "";
+  }, 5000); // Remove o texto após 5 segundos (ajuste conforme necessário)
 }
 
-function sw() {
-  const wt = "Parabéns! Você ganhou, clique em (recarregar)";
-  const cf = document.getElementById("card-found-text");
-  cf.style.display = "block";
-  cf.textContent = wt;
-  spT();
-}
-
-function co() {
-  const gb = document.getElementById("game-board");
-  for (let i = 0; i < c.length; i++) {
-    const ca = cr(c[i]);
-    gb.appendChild(ca);
+function showWinAlert() {
+  if (!winAlertDisplayed) {
+    const winText = "Parabéns! Você ganhou, clique em (recarregar)";
+    const cardFoundDiv = document.getElementById("card-found-text");
+    cardFoundDiv.style.display = "block"; // Exibe o elemento
+    cardFoundDiv.textContent = winText;
+    winAlertDisplayed = true; // Marque que o alerta de vitória foi exibido
+    stopTimer();
   }
 }
 
-function op() {
-  const po = document.getElementById("imagePopup");
-  po.style.display = "block";
-}
+function createGameBoard() {
+  const gameBoard = document.getElementById("game-board");
 
-function cl(e) {
-  if (e.target.id === "imagePopup") {
-    const po = document.getElementById("imagePopup");
-    po.style.display = "none";
+  for (let i = 0; i < cardImages.length; i++) {
+    const card = createCardElement(cardImages[i]);
+    gameBoard.appendChild(card);
   }
 }
 
-function rg() {
-  const gb = document.getElementById("game-board");
-  gb.innerHTML = "";
-  f = [];
-  m = [];
-  o = 0;
-  s = 0;
-  g = !1;
-  document.getElementById("move-counter").textContent = o;
+function openPopup() {
+  const popup = document.getElementById("imagePopup");
+  popup.style.display = "block";
+}
+
+function closePopup(event) {
+  if (event.target.id === "imagePopup") {
+    const popup = document.getElementById("imagePopup");
+    popup.style.display = "none";
+  }
+}
+
+function reloadGame() {
+  // Limpa o tabuleiro
+  const gameBoard = document.getElementById("game-board");
+  gameBoard.innerHTML = "";
+  flippedCards = [];
+  matchedCards = [];
+  moveCount = 0;
+  seconds = 0;
+  gameStarted = false;
+  winAlertDisplayed = false; // Reinicialize a variável
+  document.getElementById("move-counter").textContent = moveCount;
   document.getElementById("timer").textContent = "0:00";
-  op();
-  st();
+  openPopup();
+  startGame(); // Inicia um novo jogo
 }
 
-st();
+startGame(); // Inicia o jogo
