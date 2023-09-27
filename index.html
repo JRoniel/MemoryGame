@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <meta property="og:description" content="Jogos incríveis de nossos animais para adoção, veja agora.">
   <meta property="og:title" content="Sala de Jogos do Animal de Rua CG">
   <meta property="og:url" content="gamesanimalderua.vercel.app">
@@ -35,6 +35,8 @@
     </a>
   </div>
   
+  <p id="reload">Não está funcionando? <span style="color: #333;">Clique aqui</span></p>
+  
   <div id="card-found-text">text</div>
 
   <footer>
@@ -50,6 +52,10 @@
         loader.style.display = "none";
       }
     }
+    
+    document.getElementById("reload").addEventListener("click", function() {
+      location.reload();
+    });
 
     // Função para executar após o carregamento completo da página
     document.addEventListener("DOMContentLoaded", function() {
