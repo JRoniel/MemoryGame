@@ -35,9 +35,34 @@ function createCardElement(cardValue) {
   return card;
 }
 
-function startGame() {
+// Função para carregar uma imagem de forma assíncrona
+function loadImageAsync(src) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = reject;
+    img.src = src;
+  });
+}
+
+// Função para carregar todas as imagens de forma assíncrona
+async function loadAllImagesAsync(imagePaths) {
+  const imagePromises = imagePaths.map(loadImageAsync);
+  return Promise.all(imagePromises);
+}
+  
+  async function startGame() {
   shuffle(cardImages);
-  createGameBoard();
+  const images = await loadAllImagesAsync(cardImages.map(imagePath => `./images/${imagePath}`));
+  hideAllImages(images);
+  createGameBoard(images);
+}
+
+
+function hideAllImages(images) {
+  images.forEach(image => {
+    image.src = "./images/blank.jpg";
+  });
 }
 
 function startTimer() {
@@ -112,23 +137,27 @@ function showCardFoundText(cardName) {
 
 function showWinAlert() {
   if (!winAlertDisplayed) {
+    winAlertDisplayed = true;
     const winText = "Parabéns! Você ganhou, clique em (recarregar)";
     const cardFoundDiv = document.getElementById("card-found-text");
     cardFoundDiv.style.display = "block"; // Exibe o elemento
     cardFoundDiv.textContent = winText;
-    winAlertDisplayed = true; // Marque que o alerta de vitória foi exibido
     stopTimer();
   }
 }
 
-function createGameBoard() {
+function createGameBoard(images) {
   const gameBoard = document.getElementById("game-board");
 
   for (let i = 0; i < cardImages.length; i++) {
     const card = createCardElement(cardImages[i]);
+    const cardImage = card.querySelector("img");
+    cardImage.src = images[i].src;
     gameBoard.appendChild(card);
   }
 }
+
+// Resto do código...
 
 function openPopup() {
   const popup = document.getElementById("imagePopup");
@@ -151,11 +180,11 @@ function reloadGame() {
   moveCount = 0;
   seconds = 0;
   gameStarted = false;
-  winAlertDisplayed = false; // Reinicialize a variável
+  winAlertDisplayed = false; // Resetar o alerta de vitória
   document.getElementById("move-counter").textContent = moveCount;
   document.getElementById("timer").textContent = "0:00";
   openPopup();
   startGame(); // Inicia um novo jogo
 }
 
-startGame(); 
+startGame(); // Inicia o jogo
