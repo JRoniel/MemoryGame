@@ -158,4 +158,4 @@ function reloadGame() {
   startGame(); // Inicia um novo jogo
 }
 
-startGame(); // Inicia o jogo
+startGame(); 
