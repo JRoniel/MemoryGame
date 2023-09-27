@@ -1,4 +1,13 @@
 const cardImages = ["A.jpg", "B.jpg", "C.jpg", "D.jpg", "E.jpg", "F.jpg", "A.jpg", "B.jpg", "C.jpg", "D.jpg", "E.jpg", "F.jpg"];
+const cardNames = {
+  "A.jpg": "Maria",
+  "B.jpg": "Docinho",
+  "C.jpg": "Chico",
+    "D.jpg": "Bob Marley",
+    "E.jpg": "Maria Antonieta",
+    "F.jpg": "Cocada"
+};
+
 let flippedCards = [];
 let matchedCards = [];
 let moveCount = 0;
@@ -55,6 +64,12 @@ function flipCard() {
         matchedCards.push(flippedCards[0], flippedCards[1]);
         flippedCards = [];
 
+        // Exibir o texto quando uma carta é descoberta
+        const cardName = cardNames[card1Value];
+        if (cardName) {
+          showCardFoundText(cardName);
+        }
+
         // Verifique se o jogador ganhou e mostre o alerta
         if (matchedCards.length === cardImages.length) {
           showWinAlert();
@@ -75,9 +90,27 @@ function flipCard() {
   }
 }
 
-function showWinAlert() {
-  alert("Parabéns! Você ganhou!");
+function showCardFoundText(cardName) {
+  const cardFoundDiv = document.getElementById("card-found-text");
+  cardFoundDiv.style.display = "block"; // Exibe o elemento
+  cardFoundDiv.textContent = `Você encontrou ${cardName}`;
+  setTimeout(() => {
+    cardFoundDiv.style.display = "none"; // Oculta o elemento após alguns segundos
+    cardFoundDiv.textContent = "";
+  }, 5000); // Remove o texto após 3 segundos (ajuste conforme necessário)
 }
+
+function showWinAlert() {
+  const winText = "Parabéns! Você ganhou, clique em (recarregar jogo)";
+  const cardFoundDiv = document.getElementById("card-found-text");
+  cardFoundDiv.style.display = "block"; // Exibe o elemento
+  cardFoundDiv.textContent = winText;
+  setTimeout(() => {
+    cardFoundDiv.style.display = "none"; // Oculta o elemento após alguns segundos
+    cardFoundDiv.textContent = "";
+  }, 5000); // Remove o texto após 5 segundos (ajuste conforme necessário)
+}
+
 
 function reloadGame() {
   // Limpa o tabuleiro
